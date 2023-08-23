@@ -1,4 +1,4 @@
-from pydantic import BaseModel, confloat, validator
+from pydantic import BaseModel, confloat, validator, Field
 # Literal will allow you to define to the set of values you gave to Literal
 from typing import Literal 
 import uuid 
@@ -18,12 +18,13 @@ class Module(BaseModel):
 class Student(BaseModel):
     id: uuid.UUID 
     name: str 
-    date_of_birth: date
+    date_of_birth: date = Field(default_factory=lambda: datetime.today().date())
     GPA: confloat(gt=0, lt=4)
     course: str | None # If you are using python 3.9 or below use Union[str, None]
     department: DepartmentEnum
     fees_paid: bool 
-    modules: list[Module] = []
+    # modules: list[Module] = []
+    modules: list[Module] = Field(default=[], max_items=10)
 
 
     # we can write custom validator for specific field
