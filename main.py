@@ -8,7 +8,7 @@ url = 'https://raw.githubusercontent.com/bugbytes-io/datasets/master/students_v2
 response = requests.get(url)
 data = response.json()
 
-# nested models pydantic 6:50
+# field customization pydantic 06:00
 
 # we can append dummy data to ensure that our custom validation is working properly
 
@@ -36,15 +36,16 @@ data = response.json()
 #     }
 # )
 
+del data[-1]["date_of_birth"]
 
+for student in data:
+    model = Student(**student)
+# now we can iterate over the module. Remember it is the field of Student model
+    # for module in model.modules:
+    #     # since the id field is the union of id and uuid we get both and no error
+    #     print(module.id)
+    print(model.date_of_birth)
 
-# for student in data:
-#     model = Student(**student)
-# # now we can iterate over the module. Remember it is the field of Student model
-#     # for module in model.modules:
-#     #     # since the id field is the union of id and uuid we get both and no error
-#     #     print(module.id)
-#     print(model)
 
 
 # Lets look at something called json schema. It is a declarative language that allows
@@ -53,7 +54,7 @@ data = response.json()
 
 # print(Module.schema_json(indent=2))
 # print(json.dumps(Module.model_json_schema(),indent=2))
-print(json.dumps(Student.model_json_schema(),indent=2))
+# print(json.dumps(Student.model_json_schema(),indent=2))
 
 # now we can do something reverse, for instance we are given a json file and we want to
 # convert it back to Pydantic model. For that we can use a library called
