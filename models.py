@@ -14,9 +14,12 @@ class Module(BaseModel):
     credits: Literal[10, 20] 
     registration_code: str 
 
+# what if we want to call the name of the pydantic model different than the field in source data
+# we can do like this
 
+# student_name: str = Field(alias="name")
 class Student(BaseModel):
-    id: uuid.UUID 
+    id: uuid.UUID = Field()
     name: str 
     date_of_birth: date = Field(default_factory=lambda: datetime.today().date())
     GPA: confloat(gt=0, lt=4)
@@ -56,5 +59,19 @@ class Student(BaseModel):
 # user1 = User(**u1)
 # user2 = User(**u2)
 # print(user2)
+
+# Exporting models into dictionary or json
+# two additional arguments are 
+# include and exclude
+# Lets say we want to exclude the list of modules from the output data
+
+# class Student(BaseModel):
+#     modules = list[Module] = Field(default=[], exclude=True)
+
+# If you have several field for which you want to exclude, instead of referring
+# to each of them you can set the exlude in model_dump of the output like this
+
+# print(model.dump(exclude={'id','module'}))
+
 
 

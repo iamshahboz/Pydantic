@@ -1,6 +1,7 @@
 import requests 
 from models import Student, Module
 import json 
+from pprint import pprint
 
 
 url = 'https://raw.githubusercontent.com/bugbytes-io/datasets/master/students_v2.json'
@@ -8,7 +9,7 @@ url = 'https://raw.githubusercontent.com/bugbytes-io/datasets/master/students_v2
 response = requests.get(url)
 data = response.json()
 
-# field customization pydantic 06:00
+# field customization pydantic 19:56
 
 # we can append dummy data to ensure that our custom validation is working properly
 
@@ -44,7 +45,18 @@ for student in data:
     # for module in model.modules:
     #     # since the id field is the union of id and uuid we get both and no error
     #     print(module.id)
-    print(model.date_of_birth)
+
+# and if we have a nested module we can exclude the specific field like this
+    # excludes = {
+    #     "id": True,
+    #     "modules": {"__all__": {"registration_code"}}
+    # }
+    # pprint(model.model_dump(exclude=excludes))
+
+    # print(model.model_dump(exclude={'id','modules','fees_paid'}))
+    
+
+
 
 
 
