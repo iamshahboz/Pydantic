@@ -1,7 +1,8 @@
 import requests 
 from models import Student, Module
 import json 
-from pprint import pprint
+from pprint import pprint 
+
 
 
 url = 'https://raw.githubusercontent.com/bugbytes-io/datasets/master/students_v2.json'
@@ -41,6 +42,12 @@ del data[-1]["date_of_birth"]
 
 for student in data:
     model = Student(**student)
+    # now we can the values as string not enum object, because of Config class 
+    #pprint(model.department)
+    pprint(model.fees_paid)
+    
+
+
 # now we can iterate over the module. Remember it is the field of Student model
     # for module in model.modules:
     #     # since the id field is the union of id and uuid we get both and no error
