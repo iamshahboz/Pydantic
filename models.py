@@ -25,9 +25,20 @@ class Student(BaseModel):
     GPA: confloat(gt=0, lt=4)
     course: str | None # If you are using python 3.9 or below use Union[str, None]
     department: DepartmentEnum
-    fees_paid: bool 
+    #fees_paid: bool 
     # modules: list[Module] = []
     modules: list[Module] = Field(default=[], max_items=10)
+
+    # the behavoir of pydantic can be controlled via the config class on the model
+    class Config:
+        use_enum_values = True 
+        # now we can set the title of the json schema like this 
+        title = "Student Model"
+        # if the coming data has extra fields it will raise an error them
+        extra = 'forbid'
+        # you can allow like this
+        #extra = 'allow'
+
 
 
     # we can write custom validator for specific field
